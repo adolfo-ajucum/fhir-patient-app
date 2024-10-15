@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const InsertPatient = () => {
+  // Definición de estados para cada campo
   const [name, setName] = useState("");
   const [secondSurname, setSecondSurname] = useState("");
   const [surname, setSurname] = useState("");
@@ -11,6 +12,10 @@ const InsertPatient = () => {
   const [NIT, setNIT] = useState("");
   const [historiaClinicaFisica, setHistoriaClinicaFisica] = useState("");
   const [seguroSocial, setSeguroSocial] = useState("");
+  const [religion, setReligion] = useState(""); // Nuevo estado para religión
+  const [address, setAddress] = useState(""); // Nuevo estado para dirección
+  const [contactName, setContactName] = useState(""); // Nuevo estado para el nombre del encargado
+  const [contactPhone, setContactPhone] = useState(""); // Nuevo estado para el teléfono del encargado
 
   const base_url = 'http://localhost:5826/fhir/r5';
 
@@ -62,7 +67,33 @@ const InsertPatient = () => {
           use: "home"
         }
       ],
-      birthDate: birthDate
+      birthDate: birthDate,
+      address: [
+        {
+          use: "home",
+          line: [address] // Dirección del paciente
+        }
+      ],
+      extension: [
+        {
+          url: "http://hl7.org/fhir/StructureDefinition/patient-religion", // Extensión para la religión
+          valueString: religion
+        }
+      ],
+      contact: [
+        {
+          name: {
+            family: contactName
+          },
+          telecom: [
+            {
+              system: "phone",
+              value: contactPhone,
+              use: "mobile"
+            }
+          ]
+        }
+      ]
     };
 
     // Envío de datos al servidor FHIR
@@ -114,6 +145,23 @@ const InsertPatient = () => {
         <div>
           <label>Seguro Social: </label>
           <input type="text" value={seguroSocial} onChange={(e) => setSeguroSocial(e.target.value)} />
+        </div>
+        <div>
+          <label>Religión: </label>
+          <input type="text" value={religion} onChange={(e) => setReligion(e.target.value)} />
+        </div>
+        <div>
+          <label>Dirección: </label>
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+        <div>
+          <h3>Encargado</h3>
+          <label>Nombre del Encargado: </label>
+          <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} />
+        </div>
+        <div>
+          <label>Teléfono del Encargado: </label>
+          <input type="text" value={contactPhone} onChange={(e) => setContactPhone(e.target.value)} />
         </div>
         <button type="submit">Insertar</button>
       </form>
