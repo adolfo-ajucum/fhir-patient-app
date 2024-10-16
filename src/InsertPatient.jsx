@@ -4,6 +4,8 @@ import axios from "axios";
 const InsertPatient = () => {
   // Definición de estados para cada campo
   const [name, setName] = useState("");
+  const [secondName, setSecondName] = useState("");
+  const [thirdName, setThirdName] = useState("");
   const [secondSurname, setSecondSurname] = useState("");
   const [surname, setSurname] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -51,7 +53,7 @@ const InsertPatient = () => {
         {
           use: "official",
           family: surname,
-          given: [name],
+          given: [name, secondName, thirdName].filter(Boolean), // Filtrar nombres vacíos
           extension: [
             {
               url: "https://example.org/fhir/StructureDefinition/SegundoApellido",
@@ -113,6 +115,14 @@ const InsertPatient = () => {
         <div>
           <label>Nombre: </label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        </div>
+        <div>
+          <label>Segundo Nombre: </label>
+          <input type="text" value={secondName} onChange={(e) => setSecondName(e.target.value)} />
+        </div>
+        <div>
+          <label>Tercer Nombre: </label>
+          <input type="text" value={thirdName} onChange={(e) => setThirdName(e.target.value)} />
         </div>
         <div>
           <label>Primer Apellido: </label>
