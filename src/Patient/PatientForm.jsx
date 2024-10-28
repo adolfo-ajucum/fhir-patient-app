@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './PatientForm.css';
+
 const PatientForm = () => {
   const [formData, setFormData] = useState({
     family: '',
