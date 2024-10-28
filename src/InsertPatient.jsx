@@ -21,6 +21,7 @@ const InsertPatient = () => {
   const [contactSurname, setContactSurname] = useState(""); // Nuevo estado para el primer apellido del encargado
   const [contactSecondSurname, setContactSecondSurname] = useState(""); // Nuevo estado para el segundo apellido del encargado
   const [contactPhone, setContactPhone] = useState(""); // Nuevo estado para el teléfono del encargado
+  const [showThirdName, setShowThirdName] = useState(false); // Estado para mostrar/ocultar el tercer nombre
 
   const base_url = 'http://localhost:5826/fhir/r5';
 
@@ -131,9 +132,17 @@ const InsertPatient = () => {
           <input type="text" value={secondName} onChange={(e) => setSecondName(e.target.value)} />
         </div>
         <div>
-          <label>Tercer Nombre: </label>
-          <input type="text" value={thirdName} onChange={(e) => setThirdName(e.target.value)} />
+          <label>
+            <input type="checkbox" checked={showThirdName} onChange={(e) => setShowThirdName(e.target.checked)} />
+            Insertar Tercer Nombre
+          </label>
         </div>
+        {showThirdName && (
+          <div>
+            <label>Tercer Nombre: </label>
+            <input type="text" value={thirdName} onChange={(e) => setThirdName(e.target.value)} />
+          </div>
+        )}
         <div>
           <label>Primer Apellido: </label>
           <input type="text" value={surname} onChange={(e) => setSurname(e.target.value)} required />
