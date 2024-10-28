@@ -38,9 +38,9 @@ const ListPatients = () => {
             <div>Religión: {getExtensionValue(entry.resource.extension, "http://hl7.org/fhir/StructureDefinition/patient-religion")}</div>
             <div>Dirección: {entry.resource.address?.[0]?.line?.join(', ')}</div>
             <div>Encargado:</div>
-            <div>Nombre del Encargado: {entry.resource.contact?.[0]?.name?.family}</div>
-            <div>Segundo Apellido del Encargado: {getExtensionValue(entry.resource.contact?.[0]?.name?.extension, "https://example.org/fhir/StructureDefinition/SegundoApellido")}</div>
-            <div>Dirección del Encargado: {entry.resource.contact?.[0]?.address?.[0]?.line?.join(', ')}</div>
+            <div>Nombre del Encargado: {entry.resource.contact?.[0]?.name?.given?.join(' ')}</div>
+            <div>Primer Apellido del Encargado: {entry.resource.contact?.[0]?.name?.family}</div>
+            <div>Segundo Apellido del Encargado: {getExtensionValue(entry.resource.contact?.[0]?.name?.extension, "https://hl7chile.cl/fhir/ig/clcore/StructureDefinition/SegundoApellido")}</div>
             <div>Teléfono del Encargado: {entry.resource.contact?.[0]?.telecom?.find(t => t.system === 'phone')?.value}</div>
           </li>
         ))}

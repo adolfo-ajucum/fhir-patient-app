@@ -17,6 +17,9 @@ const InsertPatient = () => {
   const [religion, setReligion] = useState(""); // Nuevo estado para religión
   const [address, setAddress] = useState(""); // Nuevo estado para dirección
   const [contactName, setContactName] = useState(""); // Nuevo estado para el nombre del encargado
+  const [contactSecondName, setContactSecondName] = useState(""); // Nuevo estado para el segundo nombre del encargado
+  const [contactSurname, setContactSurname] = useState(""); // Nuevo estado para el primer apellido del encargado
+  const [contactSecondSurname, setContactSecondSurname] = useState(""); // Nuevo estado para el segundo apellido del encargado
   const [contactPhone, setContactPhone] = useState(""); // Nuevo estado para el teléfono del encargado
 
   const base_url = 'http://localhost:5826/fhir/r5';
@@ -85,7 +88,14 @@ const InsertPatient = () => {
       contact: [
         {
           name: {
-            family: contactName
+            family: contactSurname,
+            given: [contactName, contactSecondName].filter(Boolean),
+            extension: [
+              {
+                url: "https://hl7chile.cl/fhir/ig/clcore/StructureDefinition/SegundoApellido",
+                valueString: contactSecondSurname
+              }
+            ]
           },
           telecom: [
             {
@@ -168,6 +178,18 @@ const InsertPatient = () => {
           <h3>Encargado</h3>
           <label>Nombre del Encargado: </label>
           <input type="text" value={contactName} onChange={(e) => setContactName(e.target.value)} />
+        </div>
+        <div>
+          <label>Segundo Nombre del Encargado: </label>
+          <input type="text" value={contactSecondName} onChange={(e) => setContactSecondName(e.target.value)} />
+        </div>
+        <div>
+          <label>Primer Apellido del Encargado: </label>
+          <input type="text" value={contactSurname} onChange={(e) => setContactSurname(e.target.value)} />
+        </div>
+        <div>
+          <label>Segundo Apellido del Encargado: </label>
+          <input type="text" value={contactSecondSurname} onChange={(e) => setContactSecondSurname(e.target.value)} />
         </div>
         <div>
           <label>Teléfono del Encargado: </label>
