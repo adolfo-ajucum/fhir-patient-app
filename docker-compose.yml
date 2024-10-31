@@ -1,0 +1,15 @@
+
+services:
+  reactapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react_app
+    ports:
+      - "3000:80"  # Expone el puerto 3000 para acceder a la app React en el host
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    driver: bridge
