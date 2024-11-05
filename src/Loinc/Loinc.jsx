@@ -102,20 +102,60 @@ const LoincCodeLookup = () => {
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
       {data && (
-        <div>
-          <h3>Detalles del Código LOINC</h3>
-          <p><strong>Código:</strong> {data.code}</p>
-          <p><strong>Nombre Común Largo:</strong> {data.nombreComunLargo}</p>
-          <p><strong>Componente:</strong> {data.componente}</p>
-          <p><strong>Propiedad:</strong> {data.propiedad}</p>
-          <p><strong>Intervalo:</strong> {data.intervalo}</p>
-          <p><strong>Sistema:</strong> {data.sistema}</p>
-          <p><strong>Escala:</strong> {data.escala}</p>
-          <p><strong>Método:</strong> {data.metodo}</p>
-          <p><strong>Clase:</strong> {data.clase}</p>
-          <p><strong>Ej. UCUM Unidades:</strong> {data.unidades}</p>
-          <p><strong>Orden/Observación:</strong> {data.order}</p>
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Atributo</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Código</strong></td>
+              <td>{data.code}</td>
+            </tr>
+            <tr>
+              <td><strong>Nombre Común Largo</strong></td>
+              <td>{data.nombreComunLargo}</td>
+            </tr>
+            <tr>
+              <td><strong>Componente</strong></td>
+              <td>{data.componente}</td>
+            </tr>
+            <tr>
+              <td><strong>Propiedad</strong></td>
+              <td>{data.propiedad}</td>
+            </tr>
+            <tr>
+              <td><strong>Intervalo</strong></td>
+              <td>{data.intervalo}</td>
+            </tr>
+            <tr>
+              <td><strong>Sistema</strong></td>
+              <td>{data.sistema}</td>
+            </tr>
+            <tr>
+              <td><strong>Escala</strong></td>
+              <td>{data.escala}</td>
+            </tr>
+            <tr>
+              <td><strong>Método</strong></td>
+              <td>{data.metodo}</td>
+            </tr>
+            <tr>
+              <td><strong>Clase</strong></td>
+              <td>{data.clase}</td>
+            </tr>
+            <tr>
+              <td><strong>Unidades de Medida</strong></td>
+              <td>{data.unidades}</td>
+            </tr>
+            <tr>
+              <td><strong>Orden/Observación</strong></td>
+              <td>{data.order}</td>
+            </tr>
+          </tbody>
+        </table>
       )}
     </div>
   );

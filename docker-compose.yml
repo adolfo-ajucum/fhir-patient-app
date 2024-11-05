@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: react_app
     ports:
-      - "80:80"  # Expone el puerto 3000 para acceder a la app React en el host
+      - "3000:80"  # Expone el puerto 3000 para acceder a la app React en el host
     networks:
       - elastic
 
