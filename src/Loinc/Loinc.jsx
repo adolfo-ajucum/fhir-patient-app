@@ -113,7 +113,7 @@ const LoincCodeLookup = () => {
           <p><strong>Escala:</strong> {data.escala}</p>
           <p><strong>Método:</strong> {data.metodo}</p>
           <p><strong>Clase:</strong> {data.clase}</p>
-          <p><strong>Unidades de Medida:</strong> {data.unidades}</p>
+          <p><strong>Ej. UCUM Unidades:</strong> {data.unidades}</p>
           <p><strong>Orden/Observación:</strong> {data.order}</p>
         </div>
       )}
