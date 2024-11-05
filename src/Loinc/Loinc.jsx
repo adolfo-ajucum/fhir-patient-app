@@ -41,11 +41,10 @@ const LoincCodeLookup = () => {
 
       // Split the string into an array of strings
       const valueStringArray = valueString.split(":");
-      
-      //console.log(valueStringArray);
+    
 
-      // Crar un objeto con los datos extraídos
-      const Datos = {
+      // Extraer los parámetros necesarios
+      const extractedData = {
         code: loincCode,
         nombreComunLargo: valueString,
         componente: valueStringArray[0],
@@ -54,65 +53,26 @@ const LoincCodeLookup = () => {
         sistema: valueStringArray[3],
         escala: valueStringArray[4],
         metodo: valueStringArray[5],
-      }
-
-      console.log(Datos);
-
-
-      // Extraer los parámetros necesarios
-      const extractedData = {
-        code: loincCode,
-        // nombreComunLargo Impreso
-        nombreComunLargo: result.parameter.find(p => p.name === 'display')?.valueString || "N/A",
-        
-        // componente Impreso
-        componente:  result.parameter.find(param => {
+        // Clase
+        clase: result.parameter.find(param => {
           return param.name === 'property' && param.part.some(part => {
-            return part.name === 'code' && part.valueCode === 'COMPONENT';
+            return part.name === 'code' && part.valueCode === 'CLASS';
           });
         })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
 
-        //propiedad Impreso
-        propiedad: result.parameter.find(param => {
-          return param.name === 'property' && param.part.some(part => {
-            return part.name === 'code' && part.valueCode === 'PROPERTY';
-          });
-        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
 
-        //intervalo Impreso
-        intervalo: result.parameter.find(param => {
-          return param.name === 'property' && param.part.some(part => {
-            return part.name === 'code' && part.valueCode === 'TIME_ASPCT';
-          });
-        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
-
-        //Sistema Impreso
-        sistema: result.parameter.find(param => {
-          return param.name === 'property' && param.part.some(part => {
-            return part.name === 'code' && part.valueCode === 'SYSTEM';
-          });
-        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
-
-        //Escala Impreso
-        escala: result.parameter.find(param => {
-          return param.name === 'property' && param.part.some(part => {
-            return part.name === 'code' && part.valueCode === 'SCALE_TYP';
-          });
-        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
-
-        //Unidades de Medida Impreso
+        // Unidades de Medida
         unidades: result.parameter.find(param => {
           return param.name === 'property' && param.part.some(part => {
             return part.name === 'code' && part.valueCode === 'EXAMPLE_UCUM_UNITS';
           });
-        })?.part.find(part => part.name === 'valueString') || "N/A",
+        })?.part.find(part => part.name === 'value')?.valueString || "N/A",
 
-
-        designations: result.parameter.find(param => {
-          return param.name === 'designation' && param.part.some(part => {
-            return part.name === 'language' && part.valueCode === 'es-MX';
+        order: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'ORDER_OBS';
           });
-        })?.part.find(part => part.name === 'value')?.valueString?.display || "N/A",
+        })?.part.find(part => part.name === 'value')?.valueString || "N/A",
       };
 
       setData(extractedData);
@@ -156,9 +116,10 @@ const LoincCodeLookup = () => {
           <p><strong>Intervalo:</strong> {data.intervalo}</p>
           <p><strong>Sistema:</strong> {data.sistema}</p>
           <p><strong>Escala:</strong> {data.escala}</p>
+          <p><strong>Método:</strong> {data.metodo}</p>
+          <p><strong>Clase:</strong> {data.clase}</p>
           <p><strong>Unidades de Medida:</strong> {data.unidades}</p>
-          <h4>Designaciones en Español (es-MX)</h4>
-          <p><strong>{data.unidades}</strong></p>
+          <p><strong>Orden/Observación:</strong> {data.order}</p>
         </div>
       )}
     </div>
