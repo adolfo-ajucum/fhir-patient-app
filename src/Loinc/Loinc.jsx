@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const LoincCodeLookup = () => {
   const [code, setCode] = useState('');
@@ -6,39 +7,79 @@ const LoincCodeLookup = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Datos de autenticación (reemplaza con los valores reales)
-  const username = 'aajucum';
-  const password = 'Desarollo22.';
 
   const fetchLoincData = async (loincCode) => {
     setLoading(true);
     setError(null);
     setData(null);
 
+    const url = `http://localhost:8090/lookup-loinc?loincCode=${loincCode}`;
+    console.log('Fetching URL:', url);
+
     try {
-      const response = await fetch(`https://fhir.loinc.org/CodeSystem/$lookup?system=http://loinc.org&code=${loincCode}`, {
+      const response = await axios.get(url, {
         headers: {
-          'Authorization': 'Basic ' + btoa(`${username}:${password}`), // Autenticación básica
-          'Accept-Language': 'es'
+
         }
       });
 
-      if (!response.ok) {
-        throw new Error('Error fetching data');
-      }
-
-      const result = await response.json();
+      const result = response.data;
+      console.log(result);
 
       // Extraer los parámetros necesarios
       const extractedData = {
         code: loincCode,
+        // nombreComunLargo Impreso
         nombreComunLargo: result.parameter.find(p => p.name === 'display')?.valueString || "N/A",
-        componente: result.parameter.find(p => p.name === 'component')?.valueString || "N/A",
-        propiedad: result.parameter.find(p => p.name === 'property')?.valueString || "N/A",
-        intervalo: result.parameter.find(p => p.name === 'time')?.valueString || "N/A",
-        sistema: result.parameter.find(p => p.name === 'system')?.valueString || "N/A",
-        escala: result.parameter.find(p => p.name === 'scale')?.valueString || "N/A",
-        unidades: result.parameter.find(p => p.name === 'units')?.valueString || "N/A",
+        
+        // componente Impreso
+        componente:  result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'COMPONENT';
+          });
+        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
+
+        //propiedad Impreso
+        propiedad: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'PROPERTY';
+          });
+        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
+
+        //intervalo Impreso
+        intervalo: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'TIME_ASPCT';
+          });
+        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
+
+        //Sistema Impreso
+        sistema: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'SYSTEM';
+          });
+        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
+
+        //Escala Impreso
+        escala: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'SCALE_TYP';
+          });
+        })?.part.find(part => part.name === 'value')?.valueCoding?.display || "N/A",
+
+        //Unidades de Medida Impreso
+        unidades: result.parameter.find(param => {
+          return param.name === 'property' && param.part.some(part => {
+            return part.name === 'code' && part.valueCode === 'EXAMPLE_UCUM_UNITS';
+          });
+        })?.part.find(part => part.name === 'valueString') || "N/A",
+
+
+        designations: result.parameter.find(param => {
+          return param.name === 'designation' && param.part.some(part => {
+            return part.name === 'language' && part.valueCode === 'es-MX';
+          });
+        })?.part.find(part => part.name === 'value')?.valueString?.display || "N/A",
       };
 
       setData(extractedData);
@@ -83,6 +124,8 @@ const LoincCodeLookup = () => {
           <p><strong>Sistema:</strong> {data.sistema}</p>
           <p><strong>Escala:</strong> {data.escala}</p>
           <p><strong>Unidades de Medida:</strong> {data.unidades}</p>
+          <h4>Designaciones en Español (es-MX)</h4>
+          <p><strong>{data.unidades}</strong></p>
         </div>
       )}
     </div>
