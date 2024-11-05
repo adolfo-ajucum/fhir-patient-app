@@ -23,8 +23,41 @@ const LoincCodeLookup = () => {
         }
       });
 
+      
       const result = response.data;
-      console.log(result);
+     
+      const {parameter} = result;
+
+      const designations = parameter.filter(item => item.name === "designation");
+
+      const resultado = designations.find(designation => {
+        const language = designation.part.find(part => part.name === "language" && part.valueCode === "es-MX");
+        return language !== undefined;
+        });
+
+      // Accedemos a `valueString`
+      const valuePart = resultado.part.find(part => part.name === "value");
+      const valueString = valuePart ? valuePart.valueString : null;
+
+      // Split the string into an array of strings
+      const valueStringArray = valueString.split(":");
+      
+      //console.log(valueStringArray);
+
+      // Crar un objeto con los datos extraídos
+      const Datos = {
+        code: loincCode,
+        nombreComunLargo: valueString,
+        componente: valueStringArray[0],
+        propiedad: valueStringArray[1],
+        intervalo: valueStringArray[2],
+        sistema: valueStringArray[3],
+        escala: valueStringArray[4],
+        metodo: valueStringArray[5],
+      }
+
+      console.log(Datos);
+
 
       // Extraer los parámetros necesarios
       const extractedData = {
