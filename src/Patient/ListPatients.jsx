@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ListPatients = () => {
   const [patients, setPatients] = useState([]);
-  const base_url = 'http://localhost:5826/fhir/r5';
+
+  
 
   useEffect(() => {
-    axios.get(`${base_url}/Patient`)
+    axios.get(`${apiUrl}/Patient`)
       .then(response => {
         setPatients(response.data.entry || []);
       })

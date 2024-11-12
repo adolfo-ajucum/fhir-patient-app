@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+const apiUrl = import.meta.env.VITE_API_URL;
+
 
 const PatientForm = () => {
   const [formData, setFormData] = useState({
@@ -61,7 +63,7 @@ const PatientForm = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5826/fhir/r5/Patient', patientData);
+      const response = await axios.post(`${apiUrl}/Patient`, patientData);
       console.log(response.data);
       alert('Paciente registrado con éxito');
     } catch (error) {

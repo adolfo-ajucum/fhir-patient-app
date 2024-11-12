@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const InsertPatient = () => {
   // Definición de estados para cada campo
@@ -23,7 +24,9 @@ const InsertPatient = () => {
   const [contactPhone, setContactPhone] = useState(""); // Nuevo estado para el teléfono del encargado
   const [showThirdName, setShowThirdName] = useState(false); // Estado para mostrar/ocultar el tercer nombre
 
-  const base_url = 'http://localhost:5826/fhir/r5';
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -110,7 +113,7 @@ const InsertPatient = () => {
     };
 
     // Envío de datos al servidor FHIR
-    axios.post(`${base_url}/Patient`, patientData)
+    axios.post(`${apiUrl}/Patient`, patientData)
       .then(response => {
         alert("Paciente insertado con éxito!");
       })
