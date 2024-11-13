@@ -3,6 +3,9 @@ import InsertPatient from "./Patient/InsertPatient";
 import ListPatients from "./Patient/ListPatients";
 import SnomedSearch from "./Snomed/SearchSnomedCT";
 import LoincCodeLookup from "./Loinc/Loinc";
+import EncounterFrame from "./Encounter/Buscador";
+
+const snomedServer = "https://r4.ontoserver.csiro.au/fhir";
 
 function Principal() {
   return (
@@ -14,6 +17,7 @@ function Principal() {
             <li><Link to="/list">Listar Pacientes</Link></li>
             <li><Link to= "/snomed">Busqueda snomed CT</Link></li>
             <li><Link to= "/loinc">Busqueda con Loinc</Link></li>
+            <li><Link to= "/encounter">Encuentro</Link></li>
           </ul>
         </nav>
         <Routes>
@@ -21,6 +25,7 @@ function Principal() {
           <Route path="/list" element={<ListPatients />} />
           <Route path="/snomed" element={<SnomedSearch />} />
           <Route path="/loinc" element={<LoincCodeLookup />} />
+          <Route path="/encounter" element={<EncounterFrame snomedServer={snomedServer} />} />
         </Routes>
       </div>
     </Router>
