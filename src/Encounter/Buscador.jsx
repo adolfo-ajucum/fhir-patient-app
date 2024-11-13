@@ -13,9 +13,9 @@ const EncounterFrame = ({ snomedServer }) => {
   const [filteredProcedureValues, setFilteredProcedureValues] = useState([]);
   const [lateralityValues, setLateralityValues] = useState([]);
 
-  const ENCOUNTER_REASON_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 404684003 OR < 71388002 OR < 243796009 OR < 272379006')}&count=20`;
-  const DIAGNOSIS_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 404684003')}&count=20`;
-  const PROCEDURE_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 71388002')}&count=20`;
+  //const ENCOUNTER_REASON_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 404684003 OR < 71388002 OR < 243796009 OR < 272379006')}&count=20`;
+  //const DIAGNOSIS_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 404684003')}&count=20`;
+ // const PROCEDURE_URL = `${snomedServer}/ValueSet/$expand?url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 71388002')}&count=20`;
   const LATERALITY_URL = `${snomedServer}/ValueSet/$expand?_format=json&url=${encodeURIComponent('http://snomed.info/sct?fhir_vs=ecl/< 182353008')}`;
 
   const fetchSuggestions = useCallback(debounce(async (url, setFilteredValues) => {
@@ -33,31 +33,31 @@ const EncounterFrame = ({ snomedServer }) => {
 
   useEffect(() => {
     if (encounterReason.length >= 3) {
-      fetchSuggestions(`${ENCOUNTER_REASON_URL}&filter=${encodeURIComponent(encounterReason)}`, setFilteredEncounterReasonValues);
+      fetchSuggestions(`${snomedServer}/snomedctEncounterReason?filter=${encodeURIComponent(encounterReason)}`, setFilteredEncounterReasonValues);
     }
   }, [encounterReason, fetchSuggestions]);
 
   useEffect(() => {
     if (diagnosis.length >= 3) {
-      fetchSuggestions(`${DIAGNOSIS_URL}&filter=${encodeURIComponent(diagnosis)}`, setFilteredDiagnosisValues);
+      fetchSuggestions(`${snomedServer}/snomedctDiagnostic?filter=${encodeURIComponent(diagnosis)}`, setFilteredDiagnosisValues);
     }
   }, [diagnosis, fetchSuggestions]);
 
   useEffect(() => {
     if (procedure.length >= 3) {
-      fetchSuggestions(`${PROCEDURE_URL}&filter=${encodeURIComponent(procedure)}`, setFilteredProcedureValues);
+      fetchSuggestions(`${snomedServer}/snomedctProcedure?filter=${encodeURIComponent(procedure)}`, setFilteredProcedureValues);
     }
   }, [procedure, fetchSuggestions]);
 
   return (
     <div>
       <div>
-        <label>Reason for Encounter:</label>
+        <label>Razón de Encuentro:</label>
         <input 
           type="text" 
           value={encounterReason} 
           onChange={(e) => setEncounterReason(e.target.value)} 
-          placeholder="Search Encounter Reason"
+          placeholder="Buscar Razon de Encuentro"
         />
         {filteredEncounterReasonValues.length > 0 && (
           <ul>
@@ -69,12 +69,12 @@ const EncounterFrame = ({ snomedServer }) => {
       </div>
 
       <div>
-        <label>Diagnosis:</label>
+        <label>Diagnostico:</label>
         <input 
           type="text" 
           value={diagnosis} 
           onChange={(e) => setDiagnosis(e.target.value)} 
-          placeholder="Search Diagnosis"
+          placeholder="Buscar Diagnostico"
         />
         {filteredDiagnosisValues.length > 0 && (
           <ul>
@@ -86,12 +86,12 @@ const EncounterFrame = ({ snomedServer }) => {
       </div>
 
       <div>
-        <label>Procedure:</label>
+        <label>Procedimiento:</label>
         <input 
           type="text" 
           value={procedure} 
           onChange={(e) => setProcedure(e.target.value)} 
-          placeholder="Search Procedure"
+          placeholder="Buscar Procedimiento"
         />
         {filteredProcedureValues.length > 0 && (
           <ul>
@@ -103,9 +103,9 @@ const EncounterFrame = ({ snomedServer }) => {
       </div>
 
       <div>
-        <label>Laterality:</label>
+        <label>Lateralidad:</label>
         <select value={laterality} onChange={(e) => setLaterality(e.target.value)}>
-          <option value="">Select Laterality</option>
+          <option value="">Seleccionar Lateralidad</option>
           {lateralityValues.map((item) => (
             <option key={item.code} value={item.code}>{item.display}</option>
           ))}

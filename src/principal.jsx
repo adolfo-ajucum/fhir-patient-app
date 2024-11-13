@@ -5,7 +5,7 @@ import SnomedSearch from "./Snomed/SearchSnomedCT";
 import LoincCodeLookup from "./Loinc/Loinc";
 import EncounterFrame from "./Encounter/Buscador";
 
-const snomedServer = "https://r4.ontoserver.csiro.au/fhir";
+const snomedServer = "http://localhost:8090";
 
 function Principal() {
   return (
