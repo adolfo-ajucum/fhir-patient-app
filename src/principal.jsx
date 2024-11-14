@@ -5,7 +5,7 @@ import SnomedSearch from "./Snomed/SearchSnomedCT";
 import LoincCodeLookup from "./Loinc/Loinc";
 import EncounterFrame from "./Encounter/Buscador";
 
-const snomedServer = "http://localhost:8090";
+const snomedServer = import.meta.env.SNOMED_API_URL;
 
 function Principal() {
   return (
